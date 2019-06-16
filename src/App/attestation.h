@@ -48,7 +48,7 @@
 #include <cstdint>
 #include <string>
 
-void get_attestation(sgx_enclave_id_t eid, std::vector<uint8_t> *);
+void get_attestation(const uint8_t* privkey, sgx_enclave_id_t eid, std::vector<uint8_t> *);
 int time_calibrate(sgx_enclave_id_t eid);
 std::string get_mr_enclave(sgx_enclave_id_t eid);
 

@@ -1,3 +1,14 @@
+# Fork notes
+
+[IC3 2019 Bootcamp project](https://www.initc3.org/events/2019-06-10-IC3-Blockchain-Boot-Camp.html)
+
+[The dark DAO](http://hackingdistributed.com/2018/07/02/on-chain-vote-buying/)
+can be thwarted if we can prove that bribee has unencumbered access to private
+key and thus fool the briber.
+
+This fork has nothing to do with town crier really, except it reuses that code
+infrastructure, which was easy to modify to throw in the key calculations :)
+
 # Town Crier: An Authenticated Data Feed For Smart Contracts
 
 Smart contracts systems today lack trustworthy sources of data, as currently
@@ -21,12 +32,12 @@ please visit [town-crier.org](http://town-crier.org).
     cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/tc /code
     make -j && make install
 
-To print `MRENCLAVE`, 
+To print `MRENCLAVE`,
 
     root@08119b795b16:/build# /tc/bin/tc -c /tc/conf/config-privatenet-sim -m
     # omit logging
     E1FBB750A350798ADBECAFEE8A1BFC5B229E3BC007212E92102B55CE30EA0C01
-    
+
 Alternatively, `MRENCLAVE` can be extracted manually from the `sgx_metadata` section of the enclave binary.
 
 

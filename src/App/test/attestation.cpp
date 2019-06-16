@@ -58,7 +58,7 @@ class Attestation : public SGXTestBase {};
 TEST_F(Attestation, att) {
   try {
     vector<uint8_t> att;
-    get_attestation(eid, &att);
+    //get_attestation(eid, &att);
     std::cout << "attestation: " << bufferToHex(att, true) << std::endl;
   } catch (const exception& e) {
     std::cerr << "error: " << e.what() << std::endl;

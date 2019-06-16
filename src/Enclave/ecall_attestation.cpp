@@ -53,10 +53,21 @@
 
 #include "debug.h"
 
-int ecall_create_report(sgx_target_info_t *quote_enc_info, sgx_report_t *report) {
+int ecall_create_report(const uint8_t* privkey, sgx_target_info_t *quote_enc_info, sgx_report_t *report) {
   sgx_report_data_t data; // user defined data
   int ret = 0;
-  memset(&data.d, 0x90, sizeof data.d); // put in some data
+  memset(&data.d, 0, sizeof data.d); // put in some data
+
+
+  mbedtls_mpi secret_key;
+  mbedtls_mpi_init(&secret_key);
+  mbedtls_mpi_read_binary(&secret_key, privkey, 32);
+  uint8_t pubkey[64];
+  uint8_t address[20];
+  __ecdsa_seckey_to_pubkey(&secret_key, pubkey, address);
+
+  memcpy(&data.d, pubkey, 64);
+
   ret = sgx_create_report(quote_enc_info, &data, report);
 
   hexdump("measurement: ", report->body.mr_enclave.m, SGX_HASH_SIZE);

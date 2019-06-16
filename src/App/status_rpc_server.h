@@ -63,7 +63,7 @@ class status_rpc_server : public AbstractStatusServer {
   status_rpc_server(AbstractServerConnector &connector,
                       sgx_enclave_id_t eid);
   // curl -d '{"id": 1, "jsonrpc": "2.0", "method": "status"}'  localhost:8123
-  Json::Value attest() override;
+  Json::Value attest(const std::string& x) override;
   Json::Value status() override;
   Json::Value process(const std::string& data, int nonce, const std::string& txid) override;
 };

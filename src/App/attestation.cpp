@@ -77,7 +77,7 @@ int time_calibrate(sgx_enclave_id_t eid) {
   return ret;
 }
 
-void get_attestation(sgx_enclave_id_t eid, vector<uint8_t> *out) {
+void get_attestation(const uint8_t* privkey, sgx_enclave_id_t eid, vector<uint8_t> *out) {
   if (out == nullptr) {
     throw invalid_argument("null output ptr");
   }
@@ -91,7 +91,7 @@ void get_attestation(sgx_enclave_id_t eid, vector<uint8_t> *out) {
   sgx_init_quote(&qe_info, &p_gid);
   memset(qe_info.reserved1, 0, sizeof qe_info.reserved1);
   memset(qe_info.reserved2, 0, sizeof qe_info.reserved2);
-  ecall_ret = ecall_create_report(eid, &ret, &qe_info, &report);
+  ecall_ret = ecall_create_report(eid, &ret, privkey, &qe_info, &report);
   if (ecall_ret != SGX_SUCCESS || ret) {
     LL_DEBUG("ecall_create_report: ecall_ret=%x, ret=%x", ecall_ret, ret);
     throw tc::EcallException(ecall_ret,

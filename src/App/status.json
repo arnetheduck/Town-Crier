@@ -1,6 +1,9 @@
 [
   {
     "method": "attest",
+    "params": {
+      "x": "whatever"
+    },
     "returns": {}
   },
   {

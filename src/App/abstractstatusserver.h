@@ -12,15 +12,14 @@ class AbstractStatusServer : public jsonrpc::AbstractServer<AbstractStatusServer
     public:
         AbstractStatusServer(jsonrpc::AbstractServerConnector &conn, jsonrpc::serverVersion_t type = jsonrpc::JSONRPC_SERVER_V2) : jsonrpc::AbstractServer<AbstractStatusServer>(conn, type)
         {
-            this->bindAndAddMethod(jsonrpc::Procedure("attest", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_OBJECT,  NULL), &AbstractStatusServer::attestI);
+            this->bindAndAddMethod(jsonrpc::Procedure("attest", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_OBJECT, "x",jsonrpc::JSON_STRING, NULL), &AbstractStatusServer::attestI);
             this->bindAndAddMethod(jsonrpc::Procedure("status", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_OBJECT,  NULL), &AbstractStatusServer::statusI);
             this->bindAndAddMethod(jsonrpc::Procedure("process", jsonrpc::PARAMS_BY_NAME, jsonrpc::JSON_OBJECT, "data",jsonrpc::JSON_STRING,"nonce",jsonrpc::JSON_INTEGER,"txid",jsonrpc::JSON_STRING, NULL), &AbstractStatusServer::processI);
         }
 
         inline virtual void attestI(const Json::Value &request, Json::Value &response)
         {
-            (void)request;
-            response = this->attest();
+            response = this->attest(request["x"].asString());
         }
         inline virtual void statusI(const Json::Value &request, Json::Value &response)
         {
@@ -31,7 +30,7 @@ class AbstractStatusServer : public jsonrpc::AbstractServer<AbstractStatusServer
         {
             response = this->process(request["data"].asString(), request["nonce"].asInt(), request["txid"].asString());
         }
-        virtual Json::Value attest() = 0;
+        virtual Json::Value attest(const std::string& x) = 0;
         virtual Json::Value status() = 0;
         virtual Json::Value process(const std::string& data, int nonce, const std::string& txid) = 0;
 };
